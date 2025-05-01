@@ -6,9 +6,10 @@
  Deben crear un proyecto y tener las imagenes de pruebas en la carpeta raíz del proyecto.
 
 Respete el formato de imagenes de las fuentes dadas.
-
+```
 Magic Number
 \# Comment
 Width Height
 MaxValue
 [DATA]
+```
