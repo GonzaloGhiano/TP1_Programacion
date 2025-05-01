@@ -1,0 +1,9 @@
+P2
+# Ejemplo de imagen PGM en formato P2
+# Otro comentario
+3
+3
+255
+0 127 255
+127 255 0
+255 0 127
