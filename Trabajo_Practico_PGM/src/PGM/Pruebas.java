@@ -155,23 +155,19 @@ public class Pruebas {
 		}
 		promedio = promedio / ((double) (largo * ancho));
 
-		System.out.println(promedio);
-
 		// Matriz resultado
 		int[][] im_umbralizada = new int[largo][ancho];
 
-		// Comparamos cada pixel, si es mayor o igual al umbral, el pixel es blanco
+		// Comparamos cada pixel, si pixel>=umbral -> pixel es blanco
 		for (int i = 0; i < imagen.length; i++) {
 			for (int j = 0; j < imagen[i].length; j++)
 				im_umbralizada[i][j] = (imagen[i][j] < promedio) ? 0 : 255;
 		}
-
 		return im_umbralizada;
 	}
 
 	public static int[][] umbralizacion_ISODATA(String filePath) {
 		int[][] imagen = importacion_PGM(filePath);
-		double promedio = 0;
 		int largo = imagen.length, ancho = imagen[0].length;
 
 		int min = 255, max = 0;
@@ -191,29 +187,27 @@ public class Pruebas {
 
 		// Paso 2: iterar hasta que el umbral se estabilice
 		while (umbral != umbralAnterior) {
-			int sumaBajo = 0, sumaAlto = 0;
-			int conteoBajo = 0, conteoAlto = 0;
+			int suma_oscuros = 0, suma_claros = 0;
+			int contador_oscuros = 0, contador_claros = 0;
 
 			for (int i = 0; i < imagen.length; i++) {
 				for (int j = 0; j < imagen[i].length; j++) {
 					if (imagen[i][j] < umbral) {
-						sumaBajo += imagen[i][j];
-						conteoBajo++;
+						suma_oscuros += imagen[i][j];
+						contador_oscuros++;
 					} else {
-						sumaAlto += imagen[i][j];
-						conteoAlto++;
+						suma_claros += imagen[i][j];
+						contador_claros++;
 					}
 				}
 			}
-
-			int mediaBajo = (conteoBajo == 0) ? 0 : (sumaBajo / conteoBajo);
-			int mediaAlto = (conteoAlto == 0) ? 0 : (sumaAlto / conteoAlto);
-
+			int media_oscuros = 
+					(contador_oscuros == 0) ? 0 : (suma_oscuros / contador_oscuros);
+			int media_claros = 
+					(contador_claros == 0) ? 0 : (suma_claros / contador_claros);
 			umbralAnterior = umbral;
-			umbral = (mediaBajo + mediaAlto) / 2;
+			umbral = (media_oscuros + media_claros) / 2;
 		}
-
-		System.out.println("Umbral: " + umbral);
 
 		// Matriz resultado
 		int[][] im_umbralizada = new int[largo][ancho];
